@@ -1,0 +1,484 @@
+Directory structure:
+└── Terminal-based-browser/
+    ├── README.md
+    ├── history.json
+    ├── requirements.txt
+    ├── config/
+    │   └── config.json
+    └── src/
+        ├── gemini_api.py
+        ├── gemini_grounded.py
+        ├── html2markdown.py
+        ├── html_cleaner.py
+        ├── main.py
+        ├── test.py
+        ├── test_image.py
+        └── __pycache__/
+
+================================================
+File: README.md
+================================================
+# Terminal-based AI Browser
+
+Trình duyệt tìm kiếm và đọc nội dung web ngay trong terminal, sử dụng Gemini API.
+
+## Tính năng
+- Tìm kiếm thông tin qua Gemini API, trả về kết quả dạng Google.
+- Chọn link để đọc nội dung, tự động loại bỏ phần thừa và chuyển sang markdown.
+- Hiển thị hình ảnh dạng protocol (nếu terminal hỗ trợ), ASCII art, hoặc tắt hoàn toàn.
+- Tối ưu CPU/RAM, cấu hình linh hoạt.
+
+## Cấu hình
+Chỉnh sửa file `config/config.json` để chọn chế độ hiển thị ảnh và nhập API key.
+
+## Khởi động
+```bash
+python src/main.py
+
+
+
+================================================
+File: history.json
+================================================
+[
+  {
+    "time": "2025-06-16T10:49:16.176491",
+    "query": "Search: Cách cài đặt Python cho linux 2025",
+    "title": "Hướng Dẫn Nâng Cấp Python Trên Linux - VMon Cloud",
+    "link": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQErJp9C5fcG422av6EQjXNOrn6YR6bC91vvkeN9LiT2vDIGv0pxO78D0PCEQB_r2tuaH6UIH9Y-a-4KNg4-umlsWD7ooc5C9bM3LMblqZnUfWnVoVD9IDi2f9hckuODZ1uc-sWnvH1GT5mrbN_gBnQetjsgng=="
+  },
+  {
+    "time": "2025-06-16T14:36:30.996981",
+    "query": "Search: Gradia is a Slick New Screenshot Annotation Tool for Linux",
+    "title": "Gradia is a Slick New Screenshot Annotation Tool for Linux - OMG! Ubuntu",
+    "link": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE_O8P6K5NE6og_ywYMoPyihjwXkh-ycSopZKazwGaOlWTjBabshdOiCsvk_l1NvU17GyjRnvcqEdCUEuEP0VKZftSfGqCx6AIPjdr1GTcFVqe8skS0FMgnd8b244WyUq2aNDDVK313S1KhXf8G2mOZCa70Vt0dOXJrpc7fAbF3a_tH8pavkyxnIkI="
+  },
+  {
+    "time": "2025-06-16T14:41:05.604142",
+    "query": "search: Gradia is a Slick New Screenshot Annotation Tool for Linux",
+    "title": "Gradia is a Slick New Screenshot Annotation Tool for Linux - OMG! Ubuntu",
+    "link": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE2qI0nODWKpaJxPFG9raRR8B8PVFA5KoJXOETkp_3pfvoPNN15s47G3ReIj9gpXZs-Ojk5mTIc6IxX4IjE-x7jHvOEIGI22B_zKkIlkN1c8NC3OtxuVjM7zOGsvoFX5QWaVSfIzgAk3HjChQHeSumEQuqbI_p32AOlHiI8bbXjPkwGzoOaS4kFz1c="
+  },
+  {
+    "time": "2025-06-16T14:44:47.664978",
+    "query": "search: Gradia is a Slick New Screenshot Annotation Tool for Linux",
+    "title": "Gradia is a Slick New Screenshot Annotation Tool for Linux - OMG! Ubuntu",
+    "link": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEg_-EOmdK3Qqk7hUDMJEXYrimBTwPcGnDP0_R8ujY7onAnwi106Fd0VlZ2oT9g_zl2J7OnUgRruvt43KRL_0tbL25aijb41NRrbvtxfIjaO67kn8Rq_ARqafnjta9Z6Almdqe4VTqBSvgpQlTwDLxRity_T3pm9_x98rsQrme5M_0jiCqE8CRk3F0="
+  },
+  {
+    "time": "2025-06-16T14:48:32.187797",
+    "query": "search: Gradia is a Slick New Screenshot Annotation Tool for Linux",
+    "title": "Gradia is a Slick New Screenshot Annotation Tool for Linux - OMG! Ubuntu",
+    "link": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGkXoR8q8ycGF3fyXm6l0_GjavXpL4p-onueTKr9mbcxsaOdVme48cPUF2bVQyvVlNc7gde5ine_g-G0SQrV7wG6FM0JZO-hqv5zV7FYoEyX4BNANv9TyrIL9DKkr0NtbQK7wD0uYTgo-_reKETY55hOg5afhRGPJsbpbcTjab7lryiLlYH2uXG9Zc="
+  }
+]
+
+
+================================================
+File: requirements.txt
+================================================
+requests
+beautifulsoup4
+html2text
+google-genai
+rich
+
+
+
+================================================
+File: config/config.json
+================================================
+{
+  "image_mode": "protocol",
+  "gemini_api_key": "AIzaSyCND9BLNkwrtFuNjaKhC-0VbMQpH5rUkQY",
+  "search_model": "gemini-2.5-flash-preview-05-20",
+  "markdown_model": "gemini-2.0-flash-lite"
+}
+
+
+
+================================================
+File: src/gemini_api.py
+================================================
+import os
+from google import genai
+from google.genai import types
+
+def gemini_client(api_key=None):
+    if not api_key:
+        api_key = os.environ.get("GEMINI_API_KEY")
+    return genai.Client(api_key=api_key)
+
+def gemini_chat(query, api_key=None, model="gemini-2.5-flash-preview-05-20"):
+    client = gemini_client(api_key)
+    contents = [
+        types.Content(
+            role="user",
+            parts=[types.Part.from_text(text=query)],
+        ),
+    ]
+    response = client.models.generate_content(
+        model=model,
+        contents=contents,
+        config=types.GenerateContentConfig(
+            response_mime_type="text/plain"
+        ),
+    )
+    return response.text if hasattr(response, "text") else str(response)
+
+def gemini_search(query, api_key=None, model="gemini-2.5-flash-preview-05-20"):
+    client = gemini_client(api_key)
+    contents = [
+        types.Content(
+            role="user",
+            parts=[
+                types.Part.from_text(text=(
+                    f"Search: {query}\n"
+                    "Hãy trả về kết quả dưới dạng một mảng JSON, mỗi phần tử có dạng:\n"
+                    "{ \"title\": ..., \"link\": ... }\n"
+                    "Chỉ trả về đúng block code JSON, không thêm giải thích, không thêm text ngoài block code."
+                )),
+            ],
+        ),
+    ]
+    tools = [
+        types.Tool(google_search=types.GoogleSearch()),
+    ]
+    generate_content_config = types.GenerateContentConfig(
+        tools=tools,
+        response_mime_type="text/plain",
+        system_instruction=[
+            types.Part.from_text(text="You are a search engine."),
+        ],
+    )
+    response = client.models.generate_content(
+        model=model,
+        contents=contents,
+        config=generate_content_config,
+    )
+    import re, json as _json
+    text = response.text if hasattr(response, "text") else str(response)
+    match = re.search(r"\[.*\]", text, re.DOTALL)
+    if match:
+        try:
+            arr = _json.loads(match.group(0))
+            return arr
+        except Exception:
+            pass
+    return text
+
+def html_to_markdown_ai(html, api_key=None, model="gemini-2.5-flash-preview-05-20"):
+    """
+    Chuyển HTML sang markdown bằng Gemini AI.
+    """
+    client = gemini_client(api_key)
+    prompt = (
+        "Chuyển đổi HTML sau thành markdown để đọc trên terminal, chỉ giữ lại:\n"
+        "- Tiêu đề bài viết (dùng # Title)\n"
+        "- Nội dung chính (không sidebar, không quảng cáo, không menu, không footer)\n"
+        "- Hình ảnh đúng định dạng markdown ![alt](url), không chuyển ảnh thành link, không giữ <a> ngoài markdown.\n"
+        "- Không giữ lại class/style, không giải thích thêm, chỉ trả về markdown thuần.\n\n"
+        "HTML:\n"
+    )
+    contents = [
+        types.Content(
+            role="user",
+            parts=[types.Part.from_text(text=prompt + html)],
+        ),
+    ]
+    response = client.models.generate_content(
+        model=model,
+        contents=contents,
+        config=types.GenerateContentConfig(
+            response_mime_type="text/plain"
+        ),
+    )
+    return response.text if hasattr(response, "text") else str(response)
+
+
+
+================================================
+File: src/gemini_grounded.py
+================================================
+import os
+from google import genai
+from google.genai import types
+
+def search_with_grounding(query, api_key=None, model="gemini-2.5-flash-preview-05-20"):
+    """
+    Sử dụng Gemini với grounding (Google Search, UrlContext) để tìm kiếm.
+    Trả về text kết quả (có thể parse link/title từ text).
+    """
+    if not api_key:
+        api_key = os.environ.get("GEMINI_API_KEY")
+    client = genai.Client(api_key=api_key)
+    contents = [
+        types.Content(
+            role="user",
+            parts=[
+                types.Part.from_text(text=f"Search: {query}, respond link and title website you've fetch. example: 1. (Title) [Full link]"),
+            ],
+        ),
+    ]
+    tools = [
+        types.Tool(url_context=types.UrlContext()),
+        types.Tool(google_search=types.GoogleSearch()),
+    ]
+    generate_content_config = types.GenerateContentConfig(
+        thinking_config = types.ThinkingConfig(
+            thinking_budget=0,
+        ),
+        tools=tools,
+        response_mime_type="text/plain",
+        system_instruction=[
+            types.Part.from_text(text="You are a search engine."),
+        ],
+    )
+    response = client.models.generate_content(
+        model=model,
+        contents=contents,
+        config=generate_content_config,
+    )
+    # Trả về text kết quả
+    return response.text if hasattr(response, "text") else str(response)
+
+
+
+================================================
+File: src/html2markdown.py
+================================================
+import html2text
+
+def html_to_markdown(html):
+    """
+    Chuyển HTML đã làm sạch sang markdown.
+    """
+    h = html2text.HTML2Text()
+    h.ignore_links = False
+    h.ignore_images = False
+    h.body_width = 0
+    return h.handle(html)
+
+
+
+================================================
+File: src/html_cleaner.py
+================================================
+import requests
+from bs4 import BeautifulSoup
+
+def fetch_and_clean_html(url):
+    """
+    Tải HTML từ url, loại bỏ <style>, <script>, class, header, footer.
+    Trả về HTML đã làm sạch.
+    """
+    try:
+        resp = requests.get(url, timeout=15)
+        resp.raise_for_status()
+        soup = BeautifulSoup(resp.text, "html.parser")
+
+        # Xóa style, script
+        for tag in soup(["style", "script", "noscript"]):
+            tag.decompose()
+
+        # Xóa header, footer
+        for tag in soup.find_all(["header", "footer"]):
+            tag.decompose()
+
+        # Xóa thuộc tính class/id/style khỏi tất cả tag
+        for tag in soup.find_all(True):
+            for attr in ["class", "id", "style"]:
+                if attr in tag.attrs:
+                    del tag.attrs[attr]
+
+        # Trả về nội dung body nếu có, ngược lại trả về toàn bộ
+        if soup.body:
+            return str(soup.body)
+        return str(soup)
+    except Exception as e:
+        print("Lỗi khi tải/làm sạch HTML:", e)
+        return ""
+
+
+
+================================================
+File: src/main.py
+================================================
+import os
+import json
+
+CONFIG_PATH = os.path.join(os.path.dirname(__file__), '..', 'config', 'config.json')
+
+def load_config():
+    with open(CONFIG_PATH, 'r', encoding='utf-8') as f:
+        return json.load(f)
+
+from gemini_api import gemini_chat, gemini_search
+import subprocess
+
+def show_image_url(url):
+    """Hiển thị ảnh trong terminal bằng kitty +kitten icat"""
+    try:
+        subprocess.run(['kitty', '+kitten', 'icat', url], check=True)
+    except subprocess.CalledProcessError:
+        print(f"[Không thể hiển thị ảnh: {url}]")
+
+def render_ascii_art(url, width=60):
+    """Render ảnh dạng ASCII art"""
+    try:
+        from PIL import Image
+        import requests
+        from io import BytesIO
+        img_resp = requests.get(url, timeout=10)
+        img = Image.open(BytesIO(img_resp.content)).convert("L")
+        img = img.resize((width, int(img.height * width / img.width * 0.5)))
+        chars = "@%#*+=-:. "
+        ascii_art = ""
+        for y in range(img.height):
+            for x in range(img.width):
+                pixel = img.getpixel((x, y))
+                ascii_art += chars[int(pixel / 255 * (len(chars)-1))]
+            ascii_art += "\n"
+        return ascii_art
+    except Exception as e:
+        return f"[Image error: {e}]"
+
+def main():
+    config = load_config()
+    print("=== Terminal-based AI Browser ===")
+    print("Image mode:", config.get("image_mode", "auto"))
+    print("Nhập truy vấn tìm kiếm (hoặc 'q' để thoát):")
+
+    while True:
+        query = input("> ").strip()
+        if query.lower() == 'q':
+            print("Thoát.")
+            break
+        if not query:
+            continue
+
+        if query.lower().startswith("/web "):
+            link = query[5:].strip()
+            print(f"Đang tải nội dung từ: {link}")
+            try:
+                # Tải và làm sạch HTML
+                import requests
+                from bs4 import BeautifulSoup
+                resp = requests.get(link, timeout=20)
+                resp.raise_for_status()
+                html = resp.text
+                body_idx = html.lower().find("<body")
+                if body_idx != -1:
+                    html = html[body_idx:]
+                soup = BeautifulSoup(html, "html.parser")
+                for tag in soup.find_all(True):
+                    for attr in ["class", "style"]:
+                        if attr in tag.attrs:
+                            del tag.attrs[attr]
+                clean_html = str(soup)
+
+                # Chuyển sang markdown bằng AI
+                from gemini_api import html_to_markdown_ai
+                markdown = html_to_markdown_ai(clean_html, config["gemini_api_key"])
+
+                # In text và xử lý ảnh
+                import re
+                mode = config.get("image_mode", "auto")
+                text_parts = re.split(r'(!\[.*?\]\(.*?\))', markdown)
+                
+                from rich.console import Console
+                from rich.markdown import Markdown
+                console = Console()
+
+                for part in text_parts:
+                    if part.startswith("!["):
+                        # Phần ảnh
+                        match = re.match(r'!\[(.*?)\]\((.*?)\)', part)
+                        if match:
+                            url = match.group(2)
+                            if mode == "protocol":
+                                show_image_url(url)
+                            elif mode == "ascii":
+                                print(render_ascii_art(url))
+                            else:
+                                print(f"[Image: {url}]")
+                    else:
+                        # Phần text
+                        if part.strip():
+                            md = Markdown(part)
+                            console.print(md)
+
+            except Exception as e:
+                print("Lỗi:", e)
+            continue
+
+        if query.lower().startswith("search:"):
+            result = gemini_search(query[7:].strip(), config["gemini_api_key"])
+            print("\n[Kết quả tìm kiếm với grounding]:")
+            if isinstance(result, list):
+                for idx, item in enumerate(result, 1):
+                    print(f"{idx}. {item.get('title','')}\n   {item.get('link','')}\n")
+                
+                while True:
+                    sel = input("Chọn số thứ tự link để đọc (hoặc 'b' để quay lại): ").strip()
+                    if sel.lower() == 'b':
+                        break
+                    if not sel.isdigit() or not (1 <= int(sel) <= len(result)):
+                        print("Lựa chọn không hợp lệ.")
+                        continue
+                    # Mở link bằng lệnh /web
+                    idx = int(sel) - 1
+                    link = result[idx].get('link','')
+                    title = result[idx].get('title','')
+                    main_loop = True
+                    query = f"/web {link}"
+                    break
+            else:
+                print(result)
+            continue
+
+        text = gemini_chat(query, config["gemini_api_key"])
+        print("\n[Gemini chatbot]:")
+        print(text)
+
+if __name__ == "__main__":
+    main()
+
+
+
+================================================
+File: src/test.py
+================================================
+import subprocess
+
+def show_image_url(url):
+    subprocess.run(['kitty', '+kitten', 'icat', url])
+
+# Sử dụng
+show_image_url('https://i0.wp.com/www.omgubuntu.co.uk/wp-content/uploads/2025/06/gradia-gradients.jpg?resize=768%2C403&ssl=1')
+
+
+================================================
+File: src/test_image.py
+================================================
+import subprocess
+
+def show_image_url(url):
+    try:
+        subprocess.run(['kitty', '+kitten', 'icat', url], check=True)
+    except subprocess.CalledProcessError as e:
+        print(f"Lỗi: {e}")
+
+print("Bắt đầu test hiển thị ảnh...")
+# Test với ảnh mẫu
+url = 'https://i0.wp.com/www.omgubuntu.co.uk/wp-content/uploads/2025/06/gradia-gradients.jpg?resize=768%2C403&ssl=1'
+print(f"Đang hiển thị ảnh từ: {url}")
+show_image_url(url)
+
+# Test với một ảnh khác để kiểm tra
+url2 = 'https://github.com/fluidicon.png'
+print(f"\nĐang hiển thị ảnh từ: {url2}")
+show_image_url(url2)
+
+
+
